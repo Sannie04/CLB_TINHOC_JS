@@ -2,11 +2,11 @@
   "_id": {
     "$oid": "650000000000000000000001"
   },
-  "username": "Sang",
+  "username": "Sannie",
   "email": "hihi@gmail.com",
   "phoneNumber": "0987265612",
   "dateOfBirth": "2000-03-12T00:00:00Z",
-  "password": "2801"
+  "password": "0701"
 },
 {
   "_id": {
