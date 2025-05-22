@@ -1,0 +1,96 @@
+ body {
+            margin: 10px;
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        nav {
+            background-color: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+        nav .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        nav .nav-left a {
+            color: white;
+            text-decoration: none;
+            font-size: 24px;
+            margin-right: 20px;
+        }
+        nav .nav-left a:hover {
+            color: #ffd700;
+        }
+        nav h1 {
+            margin: 0;
+            font-size: 30px;
+            text-align: center;
+            flex-grow: 1;
+        }
+        .content {
+            width: 90%;
+            margin: 30px auto;
+        }
+        .actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn-add:hover {
+            background-color: #218838;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        thead th {
+            background-color: #008cba; ;
+            color: white;
+            text-align: left;
+            padding: 10px;
+        }
+        tbody td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 5px;
+        }
+        .btn-green {
+		    background-color: #28a745 !important; /* Thêm !important để ưu tiên */
+		    color: white !important;
+		    padding: 8px 15px;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    font-size: 14px;
+		    margin: 0 5px;
+		    text-align: center;
+		    text-decoration: none;
+		}
+		.btn-green:hover {
+		    background-color: #218838 !important; /* Đậm hơn khi hover */
+		}

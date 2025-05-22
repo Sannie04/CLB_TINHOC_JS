@@ -1,0 +1,521 @@
+.students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.student-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* Needed for absolute positioning of status badge */
+}
+
+.card-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.2em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.student-info {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.student-info p {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.student-info i {
+    margin-right: 10px;
+    color: #007bff;
+    /* Or a color that matches your theme */
+}
+
+/* Ensure student ID is always visible */
+.student-info p span[data-student-id] {
+    display: inline !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #000 !important;
+    /* Make color explicitly black */
+    font-size: 1em !important;
+    /* Ensure a readable font size */
+    border: 1px solid red !important;
+    /* Temporary border for visibility check */
+    background-color: yellow !important;
+    /* Temporary background for visibility check */
+    padding: 2px !important;
+    /* Add padding */
+}
+
+.status-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-badge.active {
+    background-color: #28a745;
+    /* Green */
+}
+
+.status-badge.completed {
+    background-color: #007bff;
+    /* Blue */
+}
+
+.status-badge.dropped {
+    background-color: #dc3545;
+    /* Red */
+}
+
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    /* Added some space above buttons */
+}
+
+.edit-button,
+.delete-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.edit-button {
+    background-color: #ffc107;
+    /* Yellow/Orange */
+    color: #212529;
+}
+
+.edit-button:hover {
+    background-color: #e0a800;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    /* Red */
+    color: white;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+.edit-button i,
+.delete-button i {
+    margin-right: 5px;
+}
+
+/* Styles for filters and search */
+.filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    /* Allow items to wrap on smaller screens */
+    align-items: center;
+}
+
+.filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0 8px;
+    background-color: #fff;
+}
+
+.search-box input[type="text"] {
+    border: none;
+    padding: 8px 0;
+    font-size: 1em;
+    outline: none;
+    /* Remove default outline */
+    flex-grow: 1;
+}
+
+.search-box i {
+    color: #555;
+    margin-left: 8px;
+}
+
+/* Loading and error styles (assuming shared style.css might cover this, but include for completeness) */
+.loading,
+.error {
+    text-align: center;
+    padding: 20px;
+}
+
+.loading i {
+    font-size: 2em;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.error {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* Visually hidden accessibility class */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Basic styling for the students page */
+
+/* Container for the students grid */
+#students-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+/* Styling for individual student cards */
+.student-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.student-card .card-content {
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.student-card .card-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.2em;
+}
+
+.student-info p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.student-info i {
+    margin-right: 8px;
+    color: #007bff;
+    /* Accent color */
+}
+
+.card-actions {
+    padding: 15px;
+    border-top: 1px solid #eee;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.card-actions button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s ease;
+}
+
+.card-actions .edit-button {
+    background-color: #ffc107;
+    /* Warning color */
+    color: white;
+}
+
+.card-actions .edit-button:hover {
+    background-color: #e0a800;
+}
+
+.card-actions .delete-button {
+    background-color: #dc3545;
+    /* Danger color */
+    color: white;
+}
+
+.card-actions .delete-button:hover {
+    background-color: #c82333;
+}
+
+/* --- Filter and Search Bar Styling --- */
+.filters {
+    display: flex;
+    gap: 20px;
+    /* Space between search box and filter controls */
+    margin-bottom: 20px;
+    align-items: center;
+    /* Vertically align items */
+    flex-wrap: wrap;
+    /* Allow items to wrap on smaller screens */
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    /* Allow search box to take available space */
+    max-width: 300px;
+    /* Max width for search box */
+}
+
+.search-box input[type="text"] {
+    width: 100%;
+    padding: 10px 40px 10px 15px;
+    /* Add space for icon */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.search-box i {
+    position: absolute;
+    right: 15px;
+    color: #555;
+}
+
+.filter-controls {
+    display: flex;
+    gap: 10px;
+    /* Space between dropdowns */
+}
+
+.filter-controls select {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+/* --- Add Button Styling (consistent with courses page) --- */
+/* .page-header is already in common.css or base style */
+.page-header .add-button {
+    background-color: #28a745;
+    /* Success color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    /* Space between icon and text */
+    transition: background-color 0.2s ease;
+}
+
+.page-header .add-button:hover {
+    background-color: #218838;
+}
+
+/* Loading and Error messages */
+.loading,
+.error {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+}
+
+.loading i {
+    margin-right: 10px;
+}
+
+.error {
+    color: #dc3545;
+    /* Danger color */
+    background-color: #f8d7da;
+    /* Light red background */
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Modal Styling (assuming a separate modal.css might be better later) */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    /* High z-index to be on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black with opacity */
+    justify-content: center;
+    /* Center content */
+    align-items: center;
+    /* Center content */
+}
+
+.modal.active {
+    display: flex;
+    /* Show when active */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    /* Center vertically and horizontally */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 500px;
+    /* Max width for the modal */
+    border-radius: 8px;
+    position: relative;
+    /* Needed for close button positioning */
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.modal .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+.modal .close-button:hover,
+.modal .close-button:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.form-actions {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.form-actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 10px;
+    /* Space between buttons */
+    transition: background-color 0.2s ease;
+}
+
+.form-actions .cancel-button {
+    background-color: #6c757d;
+    /* Secondary color */
+    color: white;
+}
+
+.form-actions .cancel-button:hover {
+    background-color: #5a6268;
+}
+
+.form-actions .save-button {
+    background-color: #007bff;
+    /* Primary color */
+    color: white;
+}
+
+.form-actions .save-button:hover {
+    background-color: #0056b3;
+}

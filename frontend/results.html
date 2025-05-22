@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kết quả học tập</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Kết Quả Học Tập</h2>
+
+    <!-- Nhập mã sinh viên để tìm -->
+    <div class="input-group mb-3">
+      <input type="text" id="maSinhVienInput" class="form-control" placeholder="Nhập mã sinh viên...">
+      <button class="btn btn-primary" onclick="layKetQua()">Xem kết quả</button>
+    </div>
+
+    <!-- Bảng hiển thị kết quả -->
+    <table class="table table-bordered table-hover d-none" id="bangKetQua">
+      <thead class="table-dark">
+        <tr>
+          <th>Mã Môn</th>
+          <th>Tên Môn</th>
+          <th>Điểm</th>
+        </tr>
+      </thead>
+      <tbody id="bodyKetQua"></tbody>
+    </table>
+
+    <!-- Nếu không có dữ liệu -->
+    <div class="alert alert-warning d-none" id="khongCoDuLieu">
+      Không tìm thấy kết quả cho mã sinh viên này.
+    </div>
+  </div>
+
+  <script src="./js/results.js"></script>
+</body>
+</html>
