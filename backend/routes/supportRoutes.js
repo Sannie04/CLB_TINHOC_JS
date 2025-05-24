@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
     cb(null, imageDir);
   },
   filename: (req, file, cb) => {
-    // Lấy phần mở rộng của ảnh
     const ext = path.extname(file.originalname);
     const maSupport = req.body.maSupport || 'unknown';
     cb(null, `${maSupport}${ext}`);
@@ -23,6 +22,8 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+
 
 router.get('/', getAllSupports);
 router.post('/', upload.single('hinhAnh'), addSupport);

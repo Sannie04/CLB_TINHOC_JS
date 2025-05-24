@@ -1,5 +1,4 @@
 const Student = require('../models/Student');
-const StudentClassEnrollment = require('../models/StudentClassEnrollment');
 const mongoose = require('mongoose');
 
 // Get all students
@@ -43,7 +42,18 @@ exports.getStudent = async (req, res) => {
 
 // Create student
 exports.createStudent = async (req, res) => {
-    const student = new Student(req.body);
+    // Explicitly map incoming data (PascalCase from frontend) to PascalCase for Mongoose saving
+    const studentData = {
+        _id: req.body._id,
+        HoTen: req.body.HoTen, // Use PascalCase from frontend
+        LopSinhHoat: req.body.LopSinhHoat, // Use PascalCase from frontend
+        Email: req.body.Email, // Use PascalCase from frontend
+        SoDienThoai: req.body.SoDienThoai, // Use PascalCase from frontend
+        NgayThamGia: req.body.NgayThamGia || Date.now() // Use default if not provided
+        // Add other fields if necessary, using PascalCase from frontend
+    };
+
+    const student = new Student(studentData);
     try {
         const newStudent = await student.save();
         res.status(201).json({
@@ -62,10 +72,18 @@ exports.createStudent = async (req, res) => {
 
 // Update student
 exports.updateStudent = async (req, res) => {
+    // Explicitly map incoming data to PascalCase for Mongoose
+    const studentData = {
+        HoTen: req.body.HoTen,
+        LopSinhHoat: req.body.LopSinhHoat,
+        Email: req.body.Email,
+        SoDienThoai: req.body.SoDienThoai,
+        // Add other fields if necessary, do not update _id here
+    };
     try {
         const student = await Student.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            studentData, // Use mapped data
             { new: true, runValidators: true }
         );
         if (!student) {
@@ -110,46 +128,6 @@ exports.deleteStudent = async (req, res) => {
 
 // Get students by class ID
 exports.getStudentsByClass = async (req, res) => {
-    try {
-        console.log(`Received request for students by class. Class ID: ${req.params.classId}`); // Debug log
-        if (!mongoose.Types.ObjectId.isValid(req.params.classId)) {
-            console.log(`Invalid class ID format: ${req.params.classId}`); // Debug log
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid class ID format'
-            });
-        }
-
-        const enrollments = await StudentClassEnrollment.find({ MaLopHoc: req.params.classId });
-        console.log(`Found ${enrollments.length} enrollments for class ID ${req.params.classId}`); // Debug log
-        console.log('Enrollments data:', enrollments); // Debug log
-
-        // Get student IDs from enrollments
-        const studentIds = enrollments.map(enrollment => enrollment.MaSinhVien);
-        console.log('Extracted student IDs:', studentIds); // Debug log
-
-        // Find students by their IDs
-        const students = await Student.find({ _id: { $in: studentIds } });
-        console.log(`Found ${students.length} students for IDs: ${studentIds}`); // Debug log
-
-        if (students.length === 0) {
-            console.log('No students found for the given class ID.'); // Debug log
-            return res.status(404).json({
-                success: false,
-                message: 'Student not found'
-            });
-        }
-
-        res.json({
-            success: true,
-            count: students.length,
-            data: students
-        });
-    } catch (error) {
-        console.error('Error fetching students by class:', error);
-        res.status(500).json({
-            success: false,
-            message: error.message
-        });
-    }
+    // Temporary response for the class route until StudentClassEnrollment is implemented
+    res.status(501).json({ success: false, message: 'Get students by class functionality not implemented yet.' });
 }; 

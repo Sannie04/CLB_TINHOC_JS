@@ -1,38 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kết quả học tập</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/results.css">
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/home.css">
+  <link rel="stylesheet" href="../css/courses.css">
+  <script src="./js/header.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
+
 <body>
-  <div class="container mt-5">
-    <h2 class="text-center mb-4">Kết Quả Học Tập</h2>
+  <div id="header-container"></div>
 
-    <!-- Nhập mã sinh viên để tìm -->
-    <div class="input-group mb-3">
-      <input type="text" id="maSinhVienInput" class="form-control" placeholder="Nhập mã sinh viên...">
-      <button class="btn btn-primary" onclick="layKetQua()">Xem kết quả</button>
-    </div>
-
-    <!-- Bảng hiển thị kết quả -->
-    <table class="table table-bordered table-hover d-none" id="bangKetQua">
-      <thead class="table-dark">
-        <tr>
-          <th>Mã Môn</th>
-          <th>Tên Môn</th>
-          <th>Điểm</th>
-        </tr>
-      </thead>
-      <tbody id="bodyKetQua"></tbody>
-    </table>
-
-    <!-- Nếu không có dữ liệu -->
-    <div class="alert alert-warning d-none" id="khongCoDuLieu">
-      Không tìm thấy kết quả cho mã sinh viên này.
-    </div>
+  <div class="container">
+    <h1>Kết quả học tập</h1>
   </div>
 
-  <script src="./js/results.js"></script>
+
+  <main class="container results-container">
+    <div id="loading" class="loading" style="display: none;">Đang tải...</div>
+    <div id="error" class="error-message" style="display: none;"></div>
+
+    <div class="results-table-container">
+      <h2>Tổng hợp kết quả</h2>
+      <input type="text" id="result-search" placeholder="Tìm kiếm theo tên sinh viên hoặc khóa học...">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Khóa học</th>
+            <th>Học viên</th>
+            <th>Điểm</th>
+            <th>Ngày cập nhật</th>
+          </tr>
+        </thead>
+        <tbody id="results-table-body">
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+  <script src="./js/home.js"></script>
+  <script src="js/results.js"></script>
 </body>
+
 </html>

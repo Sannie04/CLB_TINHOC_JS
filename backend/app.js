@@ -1,32 +1,50 @@
 const express = require('express');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
 
-dotenv.config();
+const port = process.env.PORT || 5000;
+
 connectDB();
 
 const app = express();
-app.use('/images', express.static(path.join(__dirname, 'frontend/images')));
+
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// API routes
+// API Routes - Define before static file serving to ensure API calls are handled first
+const resultRoutes = require('./routes/resultsRoutes');
+const courseRoutes = require('./routes/coursesRoutes');
 const authRoutes = require('./routes/authRoutes');
-app.use('/api/auth', authRoutes);
 const supportRoutes = require('./routes/supportRoutes');
+const studentRoutes = require('./routes/studentsRouter');
+
+app.use('/api/results', resultRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/supports', supportRoutes);
+app.use('/api/students', studentRoutes);
 
-// Phục vụ frontend static files
+// Serve static files from the 'frontend' directory for all other routes
 app.use(express.static(path.join(__dirname, '../frontend')));
+// Optional: Serve images separately if they are stored outside the main frontend static directory structure
+app.use('/images', express.static(path.join(__dirname, '../frontend/images'))); // Assuming images are in frontend/images
 
-// Route mặc định trả về index.html
+// Fallback route for SPA (Single Page Application) - serves index.html for any route not handled by APIs or static files
+// This is commented out for now, assuming a multi-page application based on previous work (courses.html, course-details.html, results.html)
+/*
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+});
+*/
+
+// Simple route for the root path to serve the primary entry point (e.g., courses.html)
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/home.html'));
+  res.sendFile(path.join(__dirname, '../frontend/courses.html')); // Assuming courses.html is the main page
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

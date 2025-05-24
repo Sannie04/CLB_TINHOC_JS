@@ -1,5 +1,69 @@
+/* ====== GIAO DIỆN DANH SÁCH SUPPORT ====== */
+body {
+    background: #f5f6fa;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+h1 {
+    color: #2e7d32;
+    font-weight: 700;
+}
+
+/* Nút thêm học viên */
+.add-button {
+    background-color: #28a745;
+    border: none;
+    padding: 10px 25px;
+    color: #fff;
+    border-radius: 25px;
+    box-shadow: 0 5px 10px rgba(40, 167, 69, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-button:hover {
+    background-color: #218838;
+    box-shadow: 0 8px 16px rgba(40, 167, 69, 0.4);
+}
+
+/* Ô tìm kiếm và bộ lọc */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    position: relative;
+    flex: 1 1 300px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.search-box input:focus {
+    border-color: #28a745;
+}
+
+/* Bộ lọc lớp */
+.filter-controls select {
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    min-width: 180px;
+}
+
+/* ====== THẺ SUPPORT ====== */
 .support-card {
-    background-color: #f8f9fa;
+    background-color: #fff;
     border-radius: 15px;
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -48,6 +112,7 @@
     font-size: 0.875rem;
 }
 
+/* Responsive */
 @media (max-width: 767.98px) {
     .image-container {
         width: 100px;
@@ -65,6 +130,11 @@
     .btn-sm {
         padding: 0.2rem 0.4rem;
         font-size: 0.8rem;
+    }
+
+    .filters {
+        flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -91,4 +161,3 @@
         font-size: 0.75rem;
     }
 }
-

@@ -5,16 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CLB Tin Học - Học viên</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/header.css">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="../css/students.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="./css/header.css">
+    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/students.css">
+    <script src="./js/header.js" defer></script>
+
 </head>
 
 <body>
     <!-- Common Components Container -->
-    <div id="common-container"></div>
+    <div id="header-container"></div>
     <!-- Main Content -->
     <main class="main-content">
         <div class="container">
@@ -60,7 +61,7 @@
             <div class="card-content">
                 <h3 class="card-title" data-student-name></h3>
                 <div class="student-info">
-                    <p><i class="fas fa-id-badge"></i> ID: <span data-student-id></span></p>
+                    <p><i class="fas fa-id-badge"></i> Mã Sinh Viên:  <span data-student-id></span></p>
                     <p><i class="fas fa-envelope"></i> Email: <span data-student-email></span></p>
                     <p><i class="fas fa-phone"></i> SĐT: <span data-student-phone></span></p>
                     <p><i class="fas fa-chalkboard"></i> Lớp: <span data-student-class></span></p>
@@ -89,7 +90,7 @@
             </div>
             <form id="add-student-form">
                 <div class="form-group student-id-group">
-                    <label for="student-id">ID Học viên</label>
+                    <label for="student-id">Mã Sinh Viên</label>
                     <input type="text" id="student-id">
                 </div>
                 <div class="form-group">
@@ -115,8 +116,7 @@
             </form>
         </div>
     </div>
-
-    <script src="/js/loadComponents.js"></script>
+    <script src="./js/home.js"></script>
     <script src="../js/students.js"></script>
 </body>
 

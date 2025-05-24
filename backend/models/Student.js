@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const StudentSchema = new mongoose.Schema({
+const studentSchema = new mongoose.Schema({
     _id: {
         type: String,
         required: true,
@@ -27,6 +27,7 @@ const StudentSchema = new mongoose.Schema({
     },
     SoDienThoai: {
         type: String,
+        required: [true, 'Vui lòng nhập số điện thoại'],
         maxlength: [20, 'Số điện thoại không được quá 20 ký tự']
     },
     NgayThamGia: {
@@ -35,4 +36,4 @@ const StudentSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Student', StudentSchema); 
+module.exports = mongoose.model('Student', studentSchema); 

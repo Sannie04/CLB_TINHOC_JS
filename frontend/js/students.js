@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Student ID element not found for student:', student._id);
             }
 
-            // Fill student data based on the provided JSON structure
+            // Fill student data based on the provided JSON structure (using PascalCase)
             clone.querySelector('[data-student-name]').textContent = student.HoTen || 'N/A';
             clone.querySelector('[data-student-email]').textContent = student.Email || 'N/A';
             clone.querySelector('[data-student-phone]').textContent = student.SoDienThoai || 'N/A';
@@ -104,16 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const statusFilter = document.getElementById('status-filter');
         const searchInput = document.getElementById('search-input');
 
-        // Use text content for filtering as we don't have class IDs in this data structure
+        // Use text content for filtering based on PascalCase fields
         const classValue = classFilter ? classFilter.value.toLowerCase() : '';
-        const statusValue = statusFilter ? statusFilter.value.toLowerCase() : ''; // Keep status filter logic if needed, though data doesn't have status
+        const statusValue = statusFilter ? statusFilter.value.toLowerCase() : ''; // Keep status filter logic if needed
         const searchValue = searchInput ? searchInput.value.toLowerCase() : '';
 
         const filteredStudents = allStudents.filter(student => {
-            // Filter by LopSinhHoat string
+            // Filter by LopSinhHoat string (using PascalCase)
             const matchesClass = !classValue || (student.LopSinhHoat && student.LopSinhHoat.toLowerCase().includes(classValue));
             // Status filter will likely not work with the provided data, but keep the structure
-            const matchesStatus = !statusValue || (student.TrangThai && student.TrangThai.toLowerCase()) === statusValue;
+            const matchesStatus = !statusValue || (student.TrangThai && student.TrangThai.toLowerCase()) === statusValue; // Assuming TrangThai is still used if applicable
             const matchesSearch = !searchValue ||
                 (student.HoTen && student.HoTen.toLowerCase().includes(searchValue)) ||
                 (student.Email && student.Email.toLowerCase().includes(searchValue)) ||
@@ -133,12 +133,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add null check for the filter element
         if (!classFilter) {
             console.error('Class filter element with ID "class-filter" not found.');
-            // Optionally show an error message to the user
-            // showError('Không thể hiển thị bộ lọc lớp học.');
             return;
         }
 
-        // Get unique class names from the student data
+        // Get unique class names from the student data (using PascalCase)
         const uniqueClasses = [...new Set(students.map(student => student.LopSinhHoat).filter(className => className))];
 
         classFilter.innerHTML = `
@@ -188,11 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
             submitButton.textContent = studentData ? 'Cập nhật' : 'Lưu';
         }
 
-        // Fill form if editing
+        // Fill form if editing (using PascalCase)
         if (studentData) {
             studentIdInput.value = studentData._id || '';
             studentIdInput.readOnly = true;
-            studentIdGroup.style.display = 'block';
+            studentIdGroup.style.display = 'block'; // Assuming student ID is displayed for editing
             document.getElementById('student-name').value = studentData.HoTen || '';
             document.getElementById('student-email').value = studentData.Email || '';
             document.getElementById('student-phone').value = studentData.SoDienThoai || '';
@@ -201,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
             studentForm.reset();
             studentIdInput.value = '';
             studentIdInput.readOnly = false;
-            studentIdGroup.style.display = 'block';
+            studentIdGroup.style.display = 'block'; // Assuming student ID is displayed for adding
         }
 
         modal.classList.add('active');
@@ -226,25 +224,22 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const studentId = studentIdInput.value.trim();
-
+        // Send data with PascalCase keys to match backend model and existing data
         const formData = {
             _id: studentId,
             HoTen: document.getElementById('student-name').value.trim(),
             Email: document.getElementById('student-email').value.trim(),
             SoDienThoai: document.getElementById('student-phone').value.trim(),
             LopSinhHoat: document.getElementById('student-class').value.trim()
+            // Add other fields if necessary with PascalCase keys
+            // NgayThamGia: document.getElementById('student-join-date').value,
+            // HinhAnh: document.getElementById('student-image').value
         };
-
-        // Basic validation based on available fields and required _id
-        if (!formData._id || !formData.HoTen || !formData.Email || !formData.SoDienThoai || !formData.LopSinhHoat) {
-            showError('Vui lòng điền đầy đủ thông tin bắt buộc (ID, Họ tên, Email, SĐT, Lớp).');
-            return;
-        }
 
         try {
             const url = currentStudentId
-                ? `http://localhost:5005/api/students/${currentStudentId}`
-                : 'http://localhost:5005/api/students';
+                ? `http://localhost:5000/api/students/${currentStudentId}`
+                : 'http://localhost:5000/api/students';
 
             const method = currentStudentId ? 'PUT' : 'POST';
 
@@ -278,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!confirm('Bạn có chắc chắn muốn xóa học viên này?')) return;
 
         try {
-            const response = await fetch(`http://localhost:5005/api/students/${studentId}`, {
+            const response = await fetch(`http://localhost:5000/api/students/${studentId}`, {
                 method: 'DELETE'
             });
 
@@ -303,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
             errorElement.textContent = '';
 
             console.log('Fetching students from API...');
-            const response = await fetch('http://localhost:5005/api/students');
+            const response = await fetch('http://localhost:5000/api/students');
 
             if (!response.ok) {
                 const errorData = await response.json();
@@ -356,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.editStudent = async (studentId) => {
         try {
-            const response = await fetch(`http://localhost:5005/api/students/${studentId}`);
+            const response = await fetch(`http://localhost:5000/api/students/${studentId}`);
 
             if (!response.ok) {
                 const errorData = await response.json();

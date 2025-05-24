@@ -2,13 +2,18 @@ const Support = require('../models/Support');
 
 exports.getAllSupports = async (req, res) => {
   try {
-    const supports = await Support.find();
+    const { lopSinhHoat, hoTen } = req.query;
+
+    let filter = {};
+    if (lopSinhHoat) filter.lopSinhHoat = { $regex: lopSinhHoat, $options: 'i' };
+    if (hoTen) filter.hoTen = { $regex: hoTen, $options: 'i' };
+
+    const supports = await Support.find(filter);
     res.json(supports);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
-
 exports.addSupport = async (req, res) => {
   try {
     const {
