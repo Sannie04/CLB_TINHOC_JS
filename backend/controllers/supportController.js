@@ -1,4 +1,9 @@
 const Support = require('../models/Support');
+const path = require('path');
+const fs = require('fs');
+
+// Trùng đường dẫn với bên routes
+const imageDir = path.join(__dirname, '../../frontend/images');
 
 exports.getAllSupports = async (req, res) => {
   try {
@@ -16,24 +21,40 @@ exports.getAllSupports = async (req, res) => {
 };
 exports.addSupport = async (req, res) => {
   try {
-    const {
-      maSupport,
-      hoTen,
-      lopSinhHoat,
-      soDienThoai,
-      email
-    } = req.body;
+    // Kiểm tra req.body hợp lệ trước
+    if (!req.body || typeof req.body !== 'object') {
+      return res.status(400).json({ message: 'Thiếu dữ liệu body' });
+    }
 
-    // Tên ảnh là theo maSupport đã được lưu đúng tên ở multer
-    const hinhAnh = req.file?.filename;
+    const maSupport = req.body.maSupport;
+    const hoTen = req.body.hoTen;
+    const lopSinhHoat = req.body.lopSinhHoat;
+    const soDienThoai = req.body.soDienThoai;
+    const email = req.body.email;
 
+    // Kiểm tra các trường bắt buộc
+    if (!maSupport || !hoTen || !email) {
+      return res.status(400).json({ message: 'Thiếu thông tin bắt buộc' });
+    }
+
+    // Nếu có file ảnh thì đổi tên theo maSupport
+    let finalImageName = null;
+    if (req.file) {
+      const ext = path.extname(req.file.originalname || req.file.filename);
+      finalImageName = `${maSupport}${ext}`;
+      const oldPath = path.join(imageDir, req.file.filename);
+      const newPath = path.join(imageDir, finalImageName);
+      fs.renameSync(oldPath, newPath);
+    }
+
+    // Tạo support mới
     const newSupport = new Support({
       _id: maSupport,
       hoTen,
       lopSinhHoat,
       soDienThoai,
       email,
-      hinhAnh
+      hinhAnh: finalImageName
     });
 
     await newSupport.save();
@@ -42,7 +63,6 @@ exports.addSupport = async (req, res) => {
     res.status(400).json({ message: 'Lỗi khi thêm support: ' + err.message });
   }
 };
-
 
 
 exports.deleteSupport = async (req, res) => {

@@ -3,31 +3,36 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { getAllSupports, addSupport, deleteSupport, updateSupport } = require('../controllers/supportController');
+const {
+  getAllSupports,
+  addSupport,
+  deleteSupport,
+  updateSupport
+} = require('../controllers/supportController');
 
-// Tạo thư mục nếu chưa tồn tại
 const imageDir = path.join(__dirname, '../../frontend/images');
 if (!fs.existsSync(imageDir)) fs.mkdirSync(imageDir, { recursive: true });
 
-// Khởi tạo multer, dùng tên ảnh là maSupport
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, imageDir);
-  },
+  destination: (req, file, cb) => cb(null, imageDir),
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    const maSupport = req.body.maSupport || 'unknown';
-    cb(null, `${maSupport}${ext}`);
+    const tempName = Date.now() + '-' + Math.round(Math.random() * 1e6);
+    cb(null, `${tempName}${ext}`);
+  }
+});
+const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+    if (allowedTypes.includes(file.mimetype)) cb(null, true);
+    else cb(new Error('Chỉ cho phép ảnh jpeg/png'));
   }
 });
 
-const upload = multer({ storage });
-
-
-
 router.get('/', getAllSupports);
 router.post('/', upload.single('hinhAnh'), addSupport);
-router.delete('/:id', deleteSupport);
 router.put('/:id', upload.single('hinhAnh'), updateSupport);
+router.delete('/:id', deleteSupport);
 
 module.exports = router;

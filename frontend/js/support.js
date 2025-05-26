@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const supportForm = document.getElementById("supportForm");
   const searchInput = document.getElementById("search-input");
   const classFilter = document.getElementById("class-filter");
-
+   
   // Load danh sách Support từ server với filter
   function loadSupports(hoTen = '', lopSinhHoat = '') {
     const params = new URLSearchParams();
@@ -31,33 +31,43 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     supportListEl.innerHTML = supports.map(s => `
-      <div class="col-md-4 mb-4">
-        <div class="card h-100 text-center">
-          <img src="/images/${s.hinhAnh || 'default.jpg'}" class="card-img-top mx-auto mt-3" alt="Ảnh Support" style="width: 100px; height: 100px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="card-title">${s.hoTen}</h5>
-            <p class="card-text"><strong>Mã:</strong> ${s._id}</p>
-            <p class="card-text"><strong>Lớp:</strong> ${s.lopSinhHoat}</p>
-            <p class="card-text"><strong>SĐT:</strong> ${s.soDienThoai}</p>
-            <p class="card-text"><strong>Email:</strong> ${s.email}</p>
-          </div>
-          <div class="card-footer d-flex justify-content-center gap-2">
-            <button class="btn btn-primary btn-sm edit-btn" data-id="${s._id}">Sửa</button>
-            <button class="btn btn-danger btn-sm delete-btn" data-id="${s._id}">Xóa</button>
-          </div>
-        </div>
+
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 text-center support-card">
+      <div class="image-container mx-auto mt-3">
+        <img src="/images/${s.hinhAnh || 'default.jpg'}" alt="Ảnh Support" />
       </div>
-    `).join('');
+      <h5 class="card-title">${s.hoTen}</h5>
+      <p class="card-text"><strong>Mã:</strong> ${s._id}</p>
+      <p class="card-text"><strong>Lớp:</strong> ${s.lopSinhHoat}</p>
+      <p class="card-text"><strong>SĐT:</strong> ${s.soDienThoai}</p>
+      <p class="card-text"><strong>Email:</strong> ${s.email}</p>
+      <div class="card-footer d-flex justify-content-center gap-2">
+        <button class="btn btn-primary btn-sm edit-btn" data-id="${s._id}">Sửa</button>
+        <button class="btn btn-danger btn-sm delete-btn" data-id="${s._id}">Xóa</button>
+      </div>
+    </div>
+  </div>
+`).join('');
+
     attachEventListeners();
   }
 
-  // Cập nhật select lọc lớp
+  // Cập nhật select lọc lớp, giữ giá trị đang chọn
   function populateClassFilter(data) {
+    const currentValue = classFilter.value;
     const classes = Array.from(new Set(data.map(s => s.lopSinhHoat))).filter(Boolean);
     const options = ['<option value="">Tất cả lớp học</option>']
       .concat(classes.map(c => `<option value="${c}">${c}</option>`))
       .join('');
     classFilter.innerHTML = options;
+
+    // Giữ lại giá trị đã chọn (nếu có)
+    if (currentValue && [...classFilter.options].some(opt => opt.value === currentValue)) {
+      classFilter.value = currentValue;
+    } else {
+      classFilter.value = '';
+    }
   }
 
   // Gán sự kiện xóa và sửa
@@ -85,34 +95,30 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Xử lý submit form thêm Support
- if (supportForm) {
-  supportForm.addEventListener('submit', e => {
-  e.preventDefault();
+  if (supportForm) {
+    supportForm.addEventListener('submit', e => {
+      e.preventDefault();
 
-  const formData = new FormData();
+      const formData = new FormData(supportForm);
 
-  formData.append('maSupport', supportForm.maSupport.value);
-  formData.append('hoTen', supportForm.hoTen.value);
-  formData.append('lopSinhHoat', supportForm.lopSinhHoat.value);
-  formData.append('soDienThoai', supportForm.soDienThoai.value);
-  formData.append('email', supportForm.email.value);
-  formData.append('hinhAnh', supportForm.hinhAnh.files[0]);
+      fetch("/api/supports", {
+        method: "POST",
+        body: formData,
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Lỗi thêm: " + res.status);
+        return res.json();
+      })
+      .then(() => {
+        const modalEl = document.getElementById("addSupportModal");
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        modalInstance.hide();
 
-  fetch('/api/supports', {
-    method: 'POST',
-    body: formData
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('Lỗi thêm: ' + res.status);
-      const modalEl = document.getElementById('addSupportModal');
-      const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      modalInstance.hide();
-      location.reload();
-    })
-    .catch(err => alert("Lỗi khi thêm: " + err));
-});
-
-
+        // Load lại danh sách mà không reload trang
+        loadSupports(searchInput.value, classFilter.value);
+      })
+      .catch(err => alert("Lỗi khi thêm: " + err));
+    });
   }
 
   // Lắng nghe input tìm kiếm và lọc lớp

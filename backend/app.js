@@ -4,8 +4,6 @@ const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/db');
 
-const port = process.env.PORT || 5000;
-
 connectDB();
 
 const app = express();
@@ -33,7 +31,6 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/images', express.static(path.join(__dirname, '../frontend/images'))); // Assuming images are in frontend/images
 
 // Fallback route for SPA (Single Page Application) - serves index.html for any route not handled by APIs or static files
-// This is commented out for now, assuming a multi-page application based on previous work (courses.html, course-details.html, results.html)
 /*
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));
@@ -44,6 +41,9 @@ app.get('*', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/courses.html')); // Assuming courses.html is the main page
 });
+
+// **Thêm dòng khai báo biến port**
+const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

@@ -19,13 +19,13 @@
 
     <!-- Nút thêm Support -->
     <div class="mb-4 text-center">
-      <button class="btn btn-success w-100 w-md-auto" data-bs-toggle="modal" data-bs-target="#addSupportModal">Thêm Support</button>
+      <button class="btn btn-success w-30 w-md-auto" data-bs-toggle="modal" data-bs-target="#addSupportModal">Thêm Support</button>
     </div>
 
     <!-- Bộ lọc tìm kiếm -->
     <div class="filters d-flex flex-wrap justify-content-center gap-3 mb-4">
       <div class="search-box flex-grow-1" style="min-width: 250px;">
-        <input type="text" id="search-input" class="form-control" placeholder="Tìm kiếm học viên..." />
+        <input type="text" id="search-input" class="form-control" placeholder="Tìm kiếm hỗ trợ..." />
         <i class="fas fa-search search-icon"></i>
       </div>
       <div class="filter-controls">
@@ -52,12 +52,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <input class="form-control mb-2" name="maSupport" placeholder="Mã Support" required />
-          <input class="form-control mb-2" name="hoTen" placeholder="Họ Tên" required />
-          <input class="form-control mb-2" name="lopSinhHoat" placeholder="Lớp" required />
-          <input class="form-control mb-2" name="soDienThoai" placeholder="SĐT" required />
-          <input class="form-control mb-2" type="email" name="email" placeholder="Email" required />
-          <input class="form-control mb-2" type="file" name="hinhAnh" accept="image/*" required />
+         <input id="maSupport" name="maSupport" class="form-control mb-2" placeholder="Mã Support" required />
+<input id="hoTen" name="hoTen" class="form-control mb-2" placeholder="Họ Tên" required />
+<input id="lopSinhHoat" name="lopSinhHoat" class="form-control mb-2" placeholder="Lớp" required />
+<input id="soDienThoai" name="soDienThoai" class="form-control mb-2" placeholder="SĐT" required />
+<input id="email" name="email" type="email" class="form-control mb-2" placeholder="Email" required />
+<input id="hinhAnh" name="hinhAnh" type="file" class="form-control mb-2" accept="image/*" required />
+
         </div>
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Thêm</button>

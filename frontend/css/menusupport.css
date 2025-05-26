@@ -68,15 +68,30 @@ h1 {
     padding: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+
+    height: 100%;
+    min-height: 350px; /* Đảm bảo chiều cao tối thiểu */
 }
 
 .support-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.support-card .card-body {
+    flex-grow: 1;
+}
+
+.support-card .card-footer {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Cho nút xuống hàng nếu không đủ chỗ */
 }
 
 .image-container {
@@ -110,6 +125,35 @@ h1 {
     margin: 0 5px;
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
+    min-width: 70px; /* Đảm bảo nút không quá nhỏ */
+    white-space: nowrap; /* Không xuống dòng trong nút */
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Nút Sửa */
+.btn-sm.edit-btn {
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+}
+
+.btn-sm.edit-btn:hover {
+    background-color: #084cd9;
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.6);
+}
+
+/* Nút Xóa */
+.btn-sm.delete-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-sm.delete-btn:hover {
+    background-color: #a22a37;
+    box-shadow: 0 4px 8px rgba(220, 53, 69, 0.6);
 }
 
 /* Responsive */
@@ -130,6 +174,7 @@ h1 {
     .btn-sm {
         padding: 0.2rem 0.4rem;
         font-size: 0.8rem;
+        min-width: 60px;
     }
 
     .filters {
@@ -140,7 +185,8 @@ h1 {
 
 @media (max-width: 575.98px) {
     .support-card {
-        padding: 10px;
+        padding: 15px;
+        min-height: 320px;
     }
 
     .image-container {
@@ -159,5 +205,6 @@ h1 {
     .btn-sm {
         padding: 0.15rem 0.3rem;
         font-size: 0.75rem;
+        min-width: 55px;
     }
 }

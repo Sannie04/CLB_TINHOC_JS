@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
 
 const supportSchema = new mongoose.Schema({
-  _id: {
-    type: String, // Mã support do người dùng nhập, không dùng ObjectId tự động
-    required: true
-  },
+ _id: { type: String },
   hoTen: { type: String, required: true },
   lopSinhHoat: { type: String, required: true },
   soDienThoai: { type: String, required: true },
