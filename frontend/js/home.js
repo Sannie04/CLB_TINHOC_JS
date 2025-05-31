@@ -5,9 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('header-container').innerHTML = html;
 
       // Gọi hàm khởi tạo login/logout sau khi chèn header
-      if (typeof initHeader === 'function') {
-        initHeader();
-      }
+      setTimeout(() => {
+        if (typeof initHeader === 'function') {
+          initHeader();
+        }
+      }, 0);
 
       // Tô đậm menu Home nếu cần
       const menuItems = document.querySelectorAll('nav.nav-menu ul li a');

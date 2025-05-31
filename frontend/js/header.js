@@ -1,16 +1,27 @@
+// Global state variables
+// const loginLogoutItem = document.getElementById('login-logout-item');
+// if (!loginLogoutItem) {
+//   console.warn('Không tìm thấy phần tử #login-logout-item trong header.');
+// }
+
+// Lấy trạng thái đăng nhập và username từ localStorage
+const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+const username = localStorage.getItem('username') || '';
+
+// Lấy tất cả các link trong menu điều hướng
+const menuLinks = document.querySelectorAll('nav.nav-menu ul li a');
+
+// Functions to update UI elements
+function displayCourseDetails(course, students, supports) {
+  // ... existing code ...
+}
+
 function initHeader() {
   const loginLogoutItem = document.getElementById('login-logout-item');
   if (!loginLogoutItem) {
     console.warn('Không tìm thấy phần tử #login-logout-item trong header.');
-    return;
+    return; // Thoát hàm nếu không tìm thấy phần tử
   }
-
-  // Lấy trạng thái đăng nhập và username từ localStorage
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-  const username = localStorage.getItem('username') || '';
-
-  // Lấy tất cả các link trong menu điều hướng
-  const menuLinks = document.querySelectorAll('nav.nav-menu ul li a');
 
   if (isLoggedIn) {
     // Nếu đã đăng nhập, hiển thị username và nút logout
@@ -44,8 +55,8 @@ function initHeader() {
     menuLinks.forEach(link => {
       const href = link.getAttribute('href');
       if (
-        href && 
-        !href.toLowerCase().includes('login.html') && 
+        href &&
+        !href.toLowerCase().includes('login.html') &&
         !href.startsWith('#')
       ) {
         link.addEventListener('click', e => {
@@ -56,6 +67,3 @@ function initHeader() {
     });
   }
 }
-
-// Khởi chạy hàm khi DOM tải xong
-document.addEventListener('DOMContentLoaded', initHeader);

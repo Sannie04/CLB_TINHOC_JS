@@ -18,6 +18,8 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
 
     if (!res.ok) {
       errorMsg.textContent = data.message || 'Đăng nhập thất bại';
+      errorMsg.style.color = 'red';
+      errorMsg.style.display = 'block';
     } else {
       // Lưu đồng bộ các giá trị đăng nhập
       localStorage.setItem('token', data.token);

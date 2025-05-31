@@ -169,6 +169,7 @@ exports.getCourseDetails = async (req, res) => {
 // @route   POST /api/courses/:id/students
 // @access  Public
 exports.addStudentToCourse = async (req, res) => {
+    console.log('addStudentToCourse controller: req.user =', req.user);
     try {
         const { studentId } = req.body;
         const course = await Course.findById(req.params.id);
@@ -192,7 +193,7 @@ exports.addStudentToCourse = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             success: false,
-            message: error.message
+            message: error.message || 'Lỗi khi thêm học viên vào khóa học.'
         });
     }
 };
@@ -201,6 +202,7 @@ exports.addStudentToCourse = async (req, res) => {
 // @route   POST /api/courses/:id/supports
 // @access  Public
 exports.addSupportToCourse = async (req, res) => {
+    console.log('Attempting to add support', req.body.supportId, 'to course', req.params.id);
     try {
         const { supportId } = req.body;
         const course = await Course.findById(req.params.id);
@@ -224,7 +226,7 @@ exports.addSupportToCourse = async (req, res) => {
     } catch (error) {
         res.status(400).json({
             success: false,
-            message: error.message
+            message: error.message || 'Lỗi khi thêm support vào khóa học.'
         });
     }
 };

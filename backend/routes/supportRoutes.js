@@ -7,8 +7,10 @@ const {
   getAllSupports,
   addSupport,
   deleteSupport,
-  updateSupport
+  updateSupport,
+  getSupportById
 } = require('../controllers/supportController');
+const { auth, adminAuth } = require('../middleware/auth');
 
 const imageDir = path.join(__dirname, '../../frontend/images');
 if (!fs.existsSync(imageDir)) fs.mkdirSync(imageDir, { recursive: true });
@@ -30,9 +32,10 @@ const upload = multer({
   }
 });
 
-router.get('/', getAllSupports);
-router.post('/', upload.single('hinhAnh'), addSupport);
-router.put('/:id', upload.single('hinhAnh'), updateSupport);
-router.delete('/:id', deleteSupport);
+router.get('/', auth, getAllSupports);
+router.post('/', auth, adminAuth, upload.single('hinhAnh'), addSupport);
+router.put('/:id', auth, adminAuth, upload.single('hinhAnh'), updateSupport);
+router.delete('/:id', auth, adminAuth, deleteSupport);
+router.get('/:id', auth, getSupportById);
 
 module.exports = router;

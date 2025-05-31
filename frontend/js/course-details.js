@@ -1,13 +1,15 @@
-// Global state variables
-let currentCourseId = null;
-let currentCourse = null; // Store current course details globally
-let allStudents = []; // List of all students for adding modal
-let allSupports = []; // List of all supports for adding modal
+import { getAuthHeaders, handleApiResponse } from './utils.js';
 
-// Helper function to get DOM elements safely
+// Biến trạng thái toàn cục
+let currentCourseId = null;
+let currentCourse = null; // Lưu trữ thông tin khóa học hiện tại
+let allStudents = []; // Danh sách tất cả học viên cho modal thêm
+let allSupports = []; // Danh sách tất cả support cho modal thêm
+
+// Hàm tiện ích để lấy phần tử DOM an toàn
 const getElement = (id) => document.getElementById(id);
 
-// Functions to update UI elements
+// Các hàm cập nhật giao diện
 function displayCourseDetails(course, students, supports) {
     const courseDetailsName = getElement('course-details-name');
     const studentsList = getElement('students-list');
@@ -15,123 +17,167 @@ function displayCourseDetails(course, students, supports) {
 
     if (courseDetailsName) courseDetailsName.textContent = course.TenKhoaHoc || '';
 
-    // Display students
+    // Hiển thị danh sách học viên
     if (studentsList) {
-        studentsList.innerHTML = students.map(student => `
+        studentsList.innerHTML = students.map(student => {
+            // Lấy thông tin user từ localStorage và kiểm tra role
+            const user = JSON.parse(localStorage.getItem('user'));
+            const isAdmin = user && user.role === 'admin';
+
+            let studentActionsHtml = '';
+            if (isAdmin) {
+                studentActionsHtml += `<button class="remove-button" onclick="removeStudentFromCourse('${currentCourseId}', '${student._id}')"><i class="fas fa-times"></i></button>`;
+                studentActionsHtml += `<button class="result-button" onclick="openResultModal('${student._id}', '${student.HoTen || 'N/A'}')"><i class="fas fa-clipboard"></i> Kết quả</button>`;
+            }
+
+            return `
             <div class="list-item">
                 <div class="item-info">
                     <span class="item-name">${student.HoTen || 'N/A'}</span>
                     <span class="item-id">${student._id || 'N/A'}</span>
                 </div>
                 <div class="item-actions">
-                    <button class="remove-button" onclick="removeStudentFromCourse('${currentCourseId}', '${student._id}')">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <button class="result-button" onclick="openResultModal('${student._id}', '${student.HoTen || 'N/A'}')">
-                        <i class="fas fa-clipboard"></i> Kết quả
-                    </button>
+                    ${studentActionsHtml}
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 
-    // Display supports
+    // Hiển thị danh sách support
     if (supportsList) {
-        supportsList.innerHTML = supports.map(support => `
+        supportsList.innerHTML = supports.map(support => {
+            // Lấy thông tin user từ localStorage và kiểm tra role
+            const user = JSON.parse(localStorage.getItem('user'));
+            const isAdmin = user && user.role === 'admin';
+
+            let supportActionsHtml = '';
+            if (isAdmin) {
+
+                supportActionsHtml += `<button class="remove-button" onclick="removeSupportFromCourse('${currentCourseId}', '${support._id}')"><i class="fas fa-times"></i></button>`;
+            }
+
+            return `
             <div class="list-item">
                 <div class="item-info">
                     <span class="item-name">${support.hoTen || 'N/A'}</span>
                     <span class="item-id">${support._id || 'N/A'}</span>
                 </div>
-                <button class="remove-button" onclick="removeSupportFromCourse('${currentCourseId}', '${support._id}')">
-                    <i class="fas fa-times"></i>
-                </button>
+                ${supportActionsHtml}
             </div>
-        `).join('');
+        `;
+        }).join('');
     }
 }
 
+// Hàm hiển thị danh sách học viên có thể thêm vào khóa học
 function displayAvailableStudents() {
     const availableStudentsList = getElement('available-students');
-    if (!availableStudentsList || !currentCourse) return; // Ensure elements and currentCourse exist
+    if (!availableStudentsList || !currentCourse) return;
 
     const studentSearch = getElement('student-search');
     const searchValue = studentSearch ? studentSearch.value.toLowerCase() : '';
 
-    // Filter students already in the current course using global currentCourse
+    // Lọc học viên chưa có trong khóa học và phù hợp với từ khóa tìm kiếm
     const available = allStudents.filter(student =>
         currentCourse && !currentCourse.students.includes(student._id) &&
-        ((student.HoTen && student.HoTen.toLowerCase().includes(searchValue)) || (student._id && student._id.toLowerCase().includes(searchValue)))
+        ((student.HoTen && student.HoTen.toLowerCase().includes(searchValue)) ||
+            (student._id && student._id.toLowerCase().includes(searchValue)))
     );
 
-    availableStudentsList.innerHTML = available.map(student => `
-        <div class="list-item" onclick="addStudentToCourse('${currentCourseId}', '${student._id}')">
+    // Lấy thông tin user từ localStorage để chỉ hiển thị danh sách cho user đã đăng nhập
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+        availableStudentsList.innerHTML = available.map(student => `
+        <div class="list-item" onclick="addStudentToCourse('${currentCourseId}', '${student._id}')" >
             <div class="item-info">
                 <span class="item-name">${student.HoTen || 'N/A'}</span>
                 <span class="item-id">${student._id || 'N/A'}</span>
             </div>
         </div>
-    `).join('');
+        `).join('');
+    } else {
+        availableStudentsList.innerHTML = ''; // Ẩn danh sách nếu chưa đăng nhập
+    }
 }
 
+// Hàm hiển thị danh sách support có thể thêm vào khóa học
 function displayAvailableSupports() {
     const availableSupportsList = getElement('available-supports');
-    if (!availableSupportsList || !currentCourse) return; // Ensure elements and currentCourse exist
+    if (!availableSupportsList || !currentCourse) return;
 
     const supportSearch = getElement('support-search');
     const searchValue = supportSearch ? supportSearch.value.toLowerCase() : '';
 
-    // Filter supports already in the current course using global currentCourse
+    // Lọc support chưa có trong khóa học và phù hợp với từ khóa tìm kiếm
     const available = allSupports.filter(support =>
         currentCourse && !currentCourse.supports.includes(support._id) &&
-        ((support.hoTen && support.hoTen.toLowerCase().includes(searchValue)) || (support._id && support._id.toLowerCase().includes(searchValue)))
+        ((support.hoTen && support.hoTen.toLowerCase().includes(searchValue)) ||
+            (support._id && support._id.toLowerCase().includes(searchValue)))
     );
 
-    availableSupportsList.innerHTML = available.map(support => `
-        <div class="list-item" onclick="addSupportToCourse('${currentCourseId}', '${support._id}')">
+    // Lấy thông tin user từ localStorage để chỉ hiển thị danh sách cho user đã đăng nhập
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+        availableSupportsList.innerHTML = available.map(support => `
+        <div class="list-item" onclick="addSupportToCourse('${currentCourseId}', '${support._id}')" >
             <div class="item-info">
                 <span class="item-name">${support.hoTen || 'N/A'}</span>
                 <span class="item-id">${support._id || 'N/A'}</span>
             </div>
         </div>
-    `).join('');
+        `).join('');
+    } else {
+        availableSupportsList.innerHTML = ''; // Ẩn danh sách nếu chưa đăng nhập
+    }
 }
 
+// Hàm hiển thị thông báo lỗi
 function showError(message) {
     const errorElement = getElement('error');
     if (!errorElement) return;
     errorElement.textContent = message;
     errorElement.style.display = 'block';
-    errorElement.style.backgroundColor = '#f8d7da'; // Light red background
-    errorElement.style.color = '#721c24'; // Dark red text
+    errorElement.style.backgroundColor = '#f8d7da';
+    errorElement.style.color = '#721c24';
     setTimeout(() => {
         errorElement.style.display = 'none';
     }, 5000);
 }
 
+// Hàm hiển thị thông báo thành công
 function showSuccess(message) {
     const errorElement = getElement('error');
     if (!errorElement) return;
     errorElement.textContent = message;
     errorElement.style.display = 'block';
-    errorElement.style.backgroundColor = '#d4edda'; // Light green background
-    errorElement.style.color = '#155724'; // Dark green text
+    errorElement.style.backgroundColor = '#d4edda';
+    errorElement.style.color = '#155724';
     setTimeout(() => {
         errorElement.style.display = 'none';
     }, 3000);
 }
 
-// API Interaction Functions
+// Các hàm tương tác với API
 async function fetchCourseDetails(courseId) {
     try {
         const loadingElement = getElement('loading');
         if (loadingElement) loadingElement.style.display = 'flex';
 
-        const response = await fetch(`/api/courses/${courseId}/details`);
-        const data = await response.json();
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
+        const response = await fetch(`/api/courses/${courseId}/details`, {
+            headers: headers
+        });
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
-            currentCourse = data.data.course; // Store the fetched course data globally
+            currentCourse = data.data.course; // Lưu thông tin khóa học vào biến toàn cục
             displayCourseDetails(data.data.course, data.data.students, data.data.supports);
         } else {
             console.error('Error fetching course details:', data.message);
@@ -146,30 +192,49 @@ async function fetchCourseDetails(courseId) {
     }
 }
 
+// Hàm lấy danh sách học viên từ API
 async function fetchStudents() {
     try {
-        const response = await fetch('/api/students');
-        const data = await response.json();
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
+        const response = await fetch('/api/students', {
+            headers: headers
+        });
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
+
         if (data.success) {
-            allStudents = data.data; // Update global state
-            displayAvailableStudents(); // Update UI
+            allStudents = data.data; // Cập nhật danh sách học viên toàn cục
+            displayAvailableStudents(); // Cập nhật giao diện
         } else {
             console.error('Error fetching students:', data.message);
             alert('Lỗi khi tải danh sách học viên: ' + (data.message || ''));
         }
     } catch (error) {
         console.error('Error fetching students:', error);
-        alert('Lỗi khi tải danh sách học viên');
+        alert('Lỗi khi tải danh viên');
     }
 }
 
+// Hàm lấy danh sách support từ API
 async function fetchSupports() {
     try {
-        const response = await fetch('/api/supports');
-        const data = await response.json();
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
+        const response = await fetch('/api/supports', {
+            headers: headers
+        });
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
+
+        console.log('API supports response data:', data);
         if (data.success) {
-            allSupports = data.data; // Update global state
-            displayAvailableSupports(); // Update UI
+            allSupports = data.data; // Cập nhật danh sách support toàn cục
+            displayAvailableSupports(); // Cập nhật giao diện
         } else {
             console.error('Error fetching supports:', data.message);
             alert('Lỗi khi tải danh sách support: ' + (data.message || ''));
@@ -180,23 +245,29 @@ async function fetchSupports() {
     }
 }
 
+// Hàm thêm học viên vào khóa học
 async function addStudentToCourse(courseId, studentId) {
+    console.log('Attempting to add student', studentId, 'to course', courseId);
     try {
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
         const response = await fetch(`/api/courses/${courseId}/students`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify({ studentId })
         });
-        const data = await response.json();
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
             showSuccess(data.message || 'Thêm học viên thành công!');
             closeAddStudentModal();
-            fetchCourseDetails(courseId); // Refresh details
+            fetchCourseDetails(courseId); // Cập nhật lại chi tiết khóa học
         } else {
-            alert('Lỗi: ' + (data.message || 'Không thể thêm học viên.'));
+            console.error('Error adding student:', data.message);
+            alert('Lỗi: ' + (data.message || 'Không thể thêm học viên. và quyền của bạn không hợp lệ')); // Thêm thông báo lỗi chi tiết hơn
         }
     } catch (error) {
         console.error('Error adding student:', error);
@@ -204,23 +275,29 @@ async function addStudentToCourse(courseId, studentId) {
     }
 }
 
+// Hàm thêm support vào khóa học
 async function addSupportToCourse(courseId, supportId) {
+    console.log('Attempting to add support', supportId, 'to course', courseId);
     try {
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
         const response = await fetch(`/api/courses/${courseId}/supports`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify({ supportId })
         });
-        const data = await response.json();
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
             showSuccess(data.message || 'Thêm support thành công!');
             closeAddSupportModal();
-            fetchCourseDetails(courseId); // Refresh details
+            fetchCourseDetails(courseId); // Cập nhật lại chi tiết khóa học
         } else {
-            alert('Lỗi: ' + (data.message || 'Không thể thêm support.'));
+            console.error('Error adding support:', data.message);
+            alert('Lỗi: ' + (data.message || 'Không thể thêm support. và quyền của bạn không hợp lệ')); // Thêm thông báo lỗi chi tiết hơn
         }
     } catch (error) {
         console.error('Error adding support:', error);
@@ -228,19 +305,27 @@ async function addSupportToCourse(courseId, supportId) {
     }
 }
 
+// Hàm xóa học viên khỏi khóa học
 async function removeStudentFromCourse(courseId, studentId) {
     if (!confirm('Bạn có chắc chắn muốn xóa học viên này khỏi khóa học?')) return;
     try {
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
         const response = await fetch(`/api/courses/${courseId}/students/${studentId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: headers
         });
-        const data = await response.json();
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
             showSuccess(data.message || 'Xóa học viên thành công!');
-            fetchCourseDetails(courseId); // Refresh details
+            fetchCourseDetails(courseId); // Cập nhật lại chi tiết khóa học
         } else {
-            alert('Lỗi: ' + (data.message || 'Không thể xóa học viên.'));
+            console.error('Error removing student:', data.message);
+            alert('Lỗi: ' + (data.message || 'Không thể xóa học viên. và quyền của bạn không hợp lệ')); // Thêm thông báo lỗi chi tiết hơn
         }
     } catch (error) {
         console.error('Error removing student:', error);
@@ -248,19 +333,27 @@ async function removeStudentFromCourse(courseId, studentId) {
     }
 }
 
+// Hàm xóa support khỏi khóa học
 async function removeSupportFromCourse(courseId, supportId) {
     if (!confirm('Bạn có chắc chắn muốn xóa support này khỏi khóa học?')) return;
     try {
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
         const response = await fetch(`/api/courses/${courseId}/supports/${supportId}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: headers
         });
-        const data = await response.json();
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
             showSuccess(data.message || 'Xóa support thành công!');
-            fetchCourseDetails(courseId); // Refresh details
+            fetchCourseDetails(courseId); // Cập nhật lại chi tiết khóa học
         } else {
-            alert('Lỗi: ' + (data.message || 'Không thể xóa support.'));
+            console.error('Error removing support:', data.message);
+            alert('Lỗi: ' + (data.message || 'Không thể xóa support. và quyền của bạn không hợp lệ')); // Thêm thông báo lỗi chi tiết hơn
         }
     } catch (error) {
         console.error('Error removing support:', error);
@@ -268,14 +361,21 @@ async function removeSupportFromCourse(courseId, supportId) {
     }
 }
 
-// Add fetch/save result functions - Ensure studentId and courseId are ObjectIds here
+// Hàm lấy kết quả học tập của học viên
 async function fetchResult(studentId, courseId) {
     try {
-        // Use ObjectId for studentId and courseId in the API call
-        const response = await fetch(`/api/results/${courseId}/${studentId}`);
-        const data = await response.json();
+        const headers = getAuthHeaders();
+        if (!headers) return null; // Dừng nếu không có token
+
+        const response = await fetch(`/api/results/${courseId}/${studentId}`, {
+            headers: headers
+        });
+
+        const data = await handleApiResponse(response);
+        if (!data) return null; // Dừng nếu có lỗi 401/403 đã được xử lý
+
         if (data.success) {
-            return data.data.score; // Return the score or null if not found
+            return data.data.score; // Trả về điểm số hoặc null nếu không tìm thấy
         } else {
             console.error('Error fetching result:', data.message);
             return null;
@@ -286,15 +386,16 @@ async function fetchResult(studentId, courseId) {
     }
 }
 
+// Hàm lưu kết quả học tập
 async function saveResult() {
     try {
-        // Get ObjectId values from hidden inputs
+        // Lấy giá trị từ các input ẩn
         const studentId = getElement('result-student-id').value;
         const courseId = getElement('result-course-id').value;
         const scoreInput = getElement('student-score');
         const score = parseFloat(scoreInput.value);
 
-        // Add console logs to check values
+        // Ghi log để kiểm tra giá trị
         console.log('Saving result:');
         console.log('Student ID:', studentId);
         console.log('Course ID:', courseId);
@@ -310,20 +411,22 @@ async function saveResult() {
             return;
         }
 
-        // Send ObjectId values in the request body
+        const headers = getAuthHeaders();
+        if (!headers) return; // Dừng nếu không có token
+
         const response = await fetch('/api/results', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: headers,
             body: JSON.stringify({ courseId: courseId, studentId: studentId, score: score })
         });
-        const data = await response.json();
+
+        const data = await handleApiResponse(response);
+        if (!data) return; // Dừng nếu có lỗi 401/403 đã được xử lý
 
         if (data.success) {
             showSuccess(data.message || 'Lưu kết quả thành công!');
             closeResultModal();
-            fetchCourseDetails(currentCourseId); // Refresh details
+            fetchCourseDetails(currentCourseId); // Cập nhật lại chi tiết khóa học
         } else {
             showError(data.message || 'Lỗi khi lưu kết quả.');
         }
@@ -333,11 +436,21 @@ async function saveResult() {
     }
 }
 
-// Modal Functions
+// Các hàm xử lý modal
 function openAddStudentModal() {
-    const modal = getElement('add-student-modal');
-    if (modal) modal.classList.add('active');
-    fetchStudents(); // Fetch all students and update display
+    // Lấy thông tin user từ localStorage và kiểm tra role
+    const user = JSON.parse(localStorage.getItem('user'));
+    // const isAdmin = user && user.role === 'admin'; // Không cần kiểm tra admin nữa
+
+    // Chỉ mở modal nếu user đã đăng nhập
+    if (user) {
+        const modal = getElement('add-student-modal');
+        if (modal) modal.classList.add('active');
+        fetchStudents(); // Lấy danh sách học viên và cập nhật hiển thị
+    } else {
+        // Hiển thị thông báo cần đăng nhập
+        showError('Vui lòng đăng nhập để thêm học viên.');
+    }
 }
 
 function closeAddStudentModal() {
@@ -350,9 +463,19 @@ function closeAddStudentModal() {
 }
 
 function openAddSupportModal() {
-    const modal = getElement('add-support-modal');
-    if (modal) modal.classList.add('active');
-    fetchSupports(); // Fetch all supports and update display
+    // Lấy thông tin user từ localStorage và kiểm tra role
+    const user = JSON.parse(localStorage.getItem('user'));
+    // const isAdmin = user && user.role === 'admin'; // Không cần kiểm tra admin nữa
+
+    // Chỉ mở modal nếu user đã đăng nhập
+    if (user) {
+        const modal = getElement('add-support-modal');
+        if (modal) modal.classList.add('active');
+        fetchSupports(); // Lấy danh sách support và cập nhật hiển thị
+    } else {
+        // Hiển thị thông báo cần đăng nhập
+        showError('Vui lòng đăng nhập để thêm support.');
+    }
 }
 
 function closeAddSupportModal() {
@@ -364,10 +487,15 @@ function closeAddSupportModal() {
     if (availableSupportsList) availableSupportsList.innerHTML = '';
 }
 
-// Modified openResultModal to store and use ObjectId
+// Hàm mở modal kết quả học tập
 async function openResultModal(studentId, studentName) {
-    if (!currentCourse || !currentCourseId) {
-        showError('Vui lòng chọn một khóa học hợp lệ.');
+    // Lấy thông tin user từ localStorage và kiểm tra role
+    const user = JSON.parse(localStorage.getItem('user'));
+    const isAdmin = user && user.role === 'admin';
+
+    // Chỉ mở modal nếu là Admin
+    if (!currentCourse || !currentCourseId || !isAdmin) {
+        showError('Bạn không có quyền xem hoặc chỉnh sửa kết quả.');
         return;
     }
 
@@ -384,17 +512,17 @@ async function openResultModal(studentId, studentName) {
         return;
     }
 
-    // Set modal content - studentId here is the ObjectId
+    // Thiết lập nội dung modal
     studentNameElement.textContent = studentName;
     courseNameElement.textContent = currentCourse.TenKhoaHoc || 'N/A';
-    resultStudentIdInput.value = studentId; // Store ObjectId
-    resultCourseIdInput.value = currentCourseId; // Store ObjectId
+    resultStudentIdInput.value = studentId;
+    resultCourseIdInput.value = currentCourseId;
 
-    // Fetch and display existing score using ObjectId
+    // Lấy và hiển thị điểm số hiện tại
     const existingScore = await fetchResult(studentId, currentCourseId);
     studentScoreInput.value = existingScore !== null && existingScore !== undefined ? existingScore : '';
 
-    modal.classList.add('active'); // Show modal
+    modal.classList.add('active');
 }
 
 function closeResultModal() {
@@ -404,16 +532,16 @@ function closeResultModal() {
     if (studentScoreInput) studentScoreInput.value = '';
 }
 
-// Initial load
+// Khởi tạo khi trang được tải
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const courseId = urlParams.get('id');
 
     if (courseId) {
-        currentCourseId = courseId; // Set global state
+        currentCourseId = courseId; // Thiết lập ID khóa học hiện tại
         fetchCourseDetails(courseId);
 
-        // Add event listeners for search inputs in modals
+        // Thêm event listener cho các input tìm kiếm trong modal
         const studentSearch = getElement('student-search');
         if (studentSearch) {
             studentSearch.addEventListener('input', displayAvailableStudents);
@@ -424,12 +552,21 @@ document.addEventListener('DOMContentLoaded', () => {
             supportSearch.addEventListener('input', displayAvailableSupports);
         }
 
+        // Lấy thông tin user và kiểm tra vai trò để ẩn/hiện nút 'Thêm support'
+        const user = JSON.parse(localStorage.getItem('user'));
+        const isAdmin = user && user.role === 'admin';
+        const addSupportButton = document.querySelector('.supports-section .add-button');
+
+        if (addSupportButton && !isAdmin) {
+            addSupportButton.style.display = 'none'; // Ẩn nút nếu không phải admin
+        }
+
     } else {
         showError('Không tìm thấy ID khóa học trong URL.');
     }
 });
 
-// Expose functions to global scope for HTML onclick attributes
+// Đăng ký các hàm vào đối tượng window để có thể gọi từ HTML
 window.openAddStudentModal = openAddStudentModal;
 window.closeAddStudentModal = closeAddStudentModal;
 window.openAddSupportModal = openAddSupportModal;

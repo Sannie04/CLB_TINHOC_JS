@@ -14,11 +14,12 @@ exports.getAllSupports = async (req, res) => {
     if (hoTen) filter.hoTen = { $regex: hoTen, $options: 'i' };
 
     const supports = await Support.find(filter);
-    res.json(supports);
+    res.json({ success: true, data: supports });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
 exports.addSupport = async (req, res) => {
   try {
     // Kiểm tra req.body hợp lệ trước
@@ -85,5 +86,20 @@ exports.updateSupport = async (req, res) => {
     res.json(updated);
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+// @desc    Get single support by ID
+// @route   GET /api/supports/:id
+// @access  Public
+exports.getSupportById = async (req, res) => {
+  try {
+    const support = await Support.findById(req.params.id);
+    if (!support) {
+      return res.status(404).json({ success: false, message: "Không tìm thấy support" });
+    }
+    res.json({ success: true, data: support });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
   }
 };

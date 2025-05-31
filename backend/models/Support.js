@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const supportSchema = new mongoose.Schema({
- _id: { type: String },
+  _id: { type: String },
   hoTen: { type: String, required: true },
   lopSinhHoat: { type: String, required: true },
   soDienThoai: { type: String, required: true },

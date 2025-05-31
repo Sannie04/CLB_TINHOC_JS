@@ -19,7 +19,9 @@
 
     <!-- Nút thêm Support -->
     <div class="mb-4 text-center">
-      <button class="btn btn-success w-30 w-md-auto" data-bs-toggle="modal" data-bs-target="#addSupportModal">Thêm Support</button>
+      <button class="btn btn-success w-30 w-md-auto" id="add-support-button" data-bs-toggle="modal"
+        data-bs-target="#addSupportModal">Thêm
+        Support</button>
     </div>
 
     <!-- Bộ lọc tìm kiếm -->
@@ -52,14 +54,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-         <input id="maSupport" name="maSupport" class="form-control mb-2" placeholder="Mã Support" required />
-<input id="hoTen" name="hoTen" class="form-control mb-2" placeholder="Họ Tên" required />
-<input id="lopSinhHoat" name="lopSinhHoat" class="form-control mb-2" placeholder="Lớp" required />
-<input id="soDienThoai" name="soDienThoai" class="form-control mb-2" placeholder="SĐT" required />
-<input id="email" name="email" type="email" class="form-control mb-2" placeholder="Email" required />
-<input id="hinhAnh" name="hinhAnh" type="file" class="form-control mb-2" accept="image/*" required />
+          <input id="maSupport" name="maSupport" class="form-control mb-2" placeholder="Mã Support" required />
+          <input id="hoTen" name="hoTen" class="form-control mb-2" placeholder="Họ Tên" required />
+          <input id="lopSinhHoat" name="lopSinhHoat" class="form-control mb-2" placeholder="Lớp" required />
+          <input id="soDienThoai" name="soDienThoai" class="form-control mb-2" placeholder="SĐT" required />
+          <input id="email" name="email" type="email" class="form-control mb-2" placeholder="Email" required />
+          <input id="hinhAnh" name="hinhAnh" type="file" class="form-control mb-2" accept="image/*" required />
 
         </div>
+        
         <div class="modal-footer">
           <button type="submit" class="btn btn-primary">Thêm</button>
         </div>
@@ -68,7 +71,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./js/support.js"></script>
+  <script src="./js/support.js" type="module"></script>
 
   <script>
     fetch('header.html')
