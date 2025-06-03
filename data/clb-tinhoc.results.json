@@ -1,330 +1,232 @@
 [{
   "_id": {
-    "$oid": "6825ff00eff0da972f307a90"
+    "$oid": "68314ff50031b7fff021bfde"
   },
-  "MaSinhVien": "SV001",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000011"
-  },
-  "DiemCuoiKy": 8.5,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
+  "student": "SV001",
+  "course": "640000000000000000000001",
+  "score": 8.5,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a91"
+    "$oid": "68314ff50031b7fff021bfdf"
   },
-  "MaSinhVien": "SV002",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000012"
-  },
-  "DiemCuoiKy": 7,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
+  "student": "SV001",
+  "course": "640000000000000000000002",
+  "score": 7.8,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a92"
+    "$oid": "68314ff50031b7fff021bfe0"
   },
-  "MaSinhVien": "SV003",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000013"
-  },
-  "DiemCuoiKy": 9,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
+  "student": "SV002",
+  "course": "640000000000000000000001",
+  "score": 9,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a93"
+    "$oid": "68314ff50031b7fff021bfe1"
   },
-  "MaSinhVien": "SV004",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000014"
-  },
-  "DiemCuoiKy": 6.5,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
+  "student": "SV003",
+  "course": "640000000000000000000003",
+  "score": 8.5,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": {
+    "$date": "2025-05-24T05:05:30.156Z"
+  }
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a94"
+    "$oid": "68314ff50031b7fff021bfe2"
   },
-  "MaSinhVien": "SV005",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000015"
-  },
-  "DiemCuoiKy": 8,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
+  "student": "SV003",
+  "course": "640000000000000000000004",
+  "score": 7.5,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a95"
+    "$oid": "68314ff50031b7fff021bfe3"
   },
-  "MaSinhVien": "SV006",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000016"
-  },
-  "DiemCuoiKy": 9.5,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
+  "student": "SV004",
+  "course": "640000000000000000000002",
+  "score": 8.8,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a96"
+    "$oid": "68314ff50031b7fff021bfe4"
   },
-  "MaSinhVien": "SV007",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000017"
-  },
-  "DiemCuoiKy": 7.5,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
+  "student": "SV005",
+  "course": "640000000000000000000001",
+  "score": 7.9,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a97"
+    "$oid": "68314ff50031b7fff021bfe5"
   },
-  "MaSinhVien": "SV008",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000018"
-  },
-  "DiemCuoiKy": 6,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
+  "student": "SV005",
+  "course": "640000000000000000000005",
+  "score": 8.3,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a98"
+    "$oid": "68314ff50031b7fff021bfe6"
   },
-  "MaSinhVien": "SV009",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000019"
-  },
-  "DiemCuoiKy": 8.7,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
+  "student": "SV006",
+  "course": "640000000000000000000004",
+  "score": 9.2,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a99"
+    "$oid": "68314ff50031b7fff021bfe7"
   },
-  "MaSinhVien": "SV010",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000020"
-  },
-  "DiemCuoiKy": 9.2,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
+  "student": "SV007",
+  "course": "640000000000000000000003",
+  "score": 8,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9a"
+    "$oid": "68314ff50031b7fff021bfe8"
   },
-  "MaSinhVien": "SV011",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000011"
-  },
-  "DiemCuoiKy": 8.3,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
+  "student": "SV007",
+  "course": "640000000000000000000002",
+  "score": 7.6,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9b"
+    "$oid": "68314ff50031b7fff021bfe9"
   },
-  "MaSinhVien": "SV012",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000012"
-  },
-  "DiemCuoiKy": 7.5,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
+  "student": "SV008",
+  "course": "640000000000000000000005",
+  "score": 8.7,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9c"
+    "$oid": "68314ff50031b7fff021bfea"
   },
-  "MaSinhVien": "SV013",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000013"
-  },
-  "DiemCuoiKy": 9,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
+  "student": "SV009",
+  "course": "640000000000000000000001",
+  "score": 9.1,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9d"
+    "$oid": "68314ff50031b7fff021bfeb"
   },
-  "MaSinhVien": "SV014",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000014"
-  },
-  "DiemCuoiKy": 6.8,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
+  "student": "SV009",
+  "course": "640000000000000000000004",
+  "score": 8.4,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9e"
+    "$oid": "68314ff50031b7fff021bfec"
   },
-  "MaSinhVien": "SV015",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000015"
-  },
-  "DiemCuoiKy": 8.1,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
+  "student": "SV010",
+  "course": "640000000000000000000002",
+  "score": 7.7,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307a9f"
+    "$oid": "68314ff50031b7fff021bfed"
   },
-  "MaSinhVien": "SV016",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000016"
-  },
-  "DiemCuoiKy": 9.2,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
+  "student": "SV010",
+  "course": "640000000000000000000003",
+  "score": 8.1,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa0"
+    "$oid": "68314ff50031b7fff021bfee"
   },
-  "MaSinhVien": "SV017",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000017"
-  },
-  "DiemCuoiKy": 7.4,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
+  "student": "SV011",
+  "course": "640000000000000000000001",
+  "score": 8,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa1"
+    "$oid": "68314ff50031b7fff021bfef"
   },
-  "MaSinhVien": "SV018",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000018"
-  },
-  "DiemCuoiKy": 6.7,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
+  "student": "SV012",
+  "course": "640000000000000000000002",
+  "score": 7.5,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa2"
+    "$oid": "68314ff50031b7fff021bff0"
   },
-  "MaSinhVien": "SV019",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000019"
-  },
-  "DiemCuoiKy": 8.9,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
+  "student": "SV013",
+  "course": "640000000000000000000003",
+  "score": 9,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa3"
+    "$oid": "68314ff50031b7fff021bff1"
   },
-  "MaSinhVien": "SV020",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000020"
-  },
-  "DiemCuoiKy": 9,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
+  "student": "SV014",
+  "course": "640000000000000000000004",
+  "score": 8.2,
+  "createdAt": "2025-05-23T16:21:00Z",
+  "updatedAt": "2025-05-23T16:21:00Z"
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa4"
+    "$oid": "683151637de6b92c35c8edbd"
   },
-  "MaSinhVien": "SV021",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000011"
+  "student": "SV004",
+  "course": "640000000000000000000003",
+  "score": 8,
+  "createdAt": {
+    "$date": "2025-05-24T04:56:03.298Z"
   },
-  "DiemCuoiKy": 8.6,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
+  "updatedAt": {
+    "$date": "2025-05-24T04:56:03.298Z"
+  },
+  "__v": 0
 },
 {
   "_id": {
-    "$oid": "6825ff00eff0da972f307aa5"
+    "$oid": "683b09d00d71861ef67fe798"
   },
-  "MaSinhVien": "SV022",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000012"
+  "student": "SV019",
+  "course": "640000000000000000000001",
+  "score": 8,
+  "createdAt": {
+    "$date": "2025-05-31T13:53:20.060Z"
   },
-  "DiemCuoiKy": 7.9,
-  "NgayCapNhat": "2024-06-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aa6"
+  "updatedAt": {
+    "$date": "2025-05-31T13:53:20.060Z"
   },
-  "MaSinhVien": "SV023",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000013"
-  },
-  "DiemCuoiKy": 9.3,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aa7"
-  },
-  "MaSinhVien": "SV024",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000014"
-  },
-  "DiemCuoiKy": 6.2,
-  "NgayCapNhat": "2024-07-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aa8"
-  },
-  "MaSinhVien": "SV025",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000015"
-  },
-  "DiemCuoiKy": 8.4,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aa9"
-  },
-  "MaSinhVien": "SV026",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000016"
-  },
-  "DiemCuoiKy": 9.5,
-  "NgayCapNhat": "2024-08-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aaa"
-  },
-  "MaSinhVien": "SV027",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000017"
-  },
-  "DiemCuoiKy": 7.8,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aab"
-  },
-  "MaSinhVien": "SV028",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000018"
-  },
-  "DiemCuoiKy": 6.3,
-  "NgayCapNhat": "2024-09-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aac"
-  },
-  "MaSinhVien": "SV029",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000019"
-  },
-  "DiemCuoiKy": 8.6,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
-},
-{
-  "_id": {
-    "$oid": "6825ff00eff0da972f307aad"
-  },
-  "MaSinhVien": "SV030",
-  "MaLopHoc": {
-    "$oid": "640000000000000000000020"
-  },
-  "DiemCuoiKy": 9.1,
-  "NgayCapNhat": "2024-10-01T00:00:00Z"
+  "__v": 0
 }]

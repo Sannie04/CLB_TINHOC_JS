@@ -1,0 +1,104 @@
+[{
+  "_id": {
+    "$oid": "640000000000000000000001"
+  },
+  "TenKhoaHoc": "Java",
+  "MoTa": "Khóa học lập trình Java cơ bản đến nâng cao",
+  "NgayBatDau": {
+    "$date": "2024-01-01T00:00:00.000Z"
+  },
+  "NgayKetThuc": {
+    "$date": "2024-12-04T00:00:00.000Z"
+  },
+  "image": "java.png",
+  "students": [
+    "SV001",
+    "SV002",
+    "SV005",
+    "SV009",
+    "SV006"
+  ],
+  "supports": [
+    "SUP001",
+    "SUP002",
+    "SUP003",
+    "SUP007"
+  ],
+  "createdAt": "2025-05-23T15:25:00Z",
+  "updatedAt": {
+    "$date": "2025-05-31T13:53:52.007Z"
+  },
+  "__v": 3
+},
+{
+  "_id": {
+    "$oid": "640000000000000000000003"
+  },
+  "TenKhoaHoc": "C++",
+  "MoTa": "Khóa học lập trình C++ chuyên sâu",
+  "NgayBatDau": {
+    "$date": "2024-03-01T00:00:00.000Z"
+  },
+  "NgayKetThuc": {
+    "$date": "2022-12-12T00:00:00.000Z"
+  },
+  "image": "c++.png",
+  "students": [
+    "SV003",
+    "SV007",
+    "SV010",
+    "SV004"
+  ],
+  "supports": [
+    "SUP001",
+    "SUP006",
+    "SUP010"
+  ],
+  "createdAt": "2025-05-23T15:25:00Z",
+  "updatedAt": {
+    "$date": "2025-05-31T13:52:01.254Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "640000000000000000000004"
+  },
+  "TenKhoaHoc": "JavaScript",
+  "MoTa": "Khóa học lập trình JavaScript toàn diện",
+  "NgayBatDau": "2024-04-01T00:00:00Z",
+  "NgayKetThuc": "2024-09-01T00:00:00Z",
+  "image": "js.jpg",
+  "students": [
+    "SV003",
+    "SV006",
+    "SV009"
+  ],
+  "supports": [
+    "SUP004",
+    "SUP007",
+    "SUP010"
+  ],
+  "createdAt": "2025-05-23T15:25:00Z",
+  "updatedAt": "2025-05-23T15:25:00Z"
+},
+{
+  "_id": {
+    "$oid": "640000000000000000000005"
+  },
+  "TenKhoaHoc": "React",
+  "MoTa": "Khóa học lập trình React và phát triển frontend",
+  "NgayBatDau": "2024-05-01T00:00:00Z",
+  "NgayKetThuc": "2024-10-01T00:00:00Z",
+  "image": "react.png",
+  "students": [
+    "SV005",
+    "SV008"
+  ],
+  "supports": [
+    "SUP005",
+    "SUP008"
+  ],
+  "createdAt": "2025-05-23T15:25:00Z",
+  "updatedAt": "2025-05-23T15:25:00Z"
+}]
